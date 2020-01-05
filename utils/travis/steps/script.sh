@@ -39,9 +39,27 @@ if [ "$TRAVIS_OS_NAME" = "osx" ]; then
                   make VERBOSE=1 -j2
         fi
     fi
+elif [ "$TRAVIS_OS_NAME" = "windows" ]; then
+    powershell "MSBuild.exe projectfiles/VC14/wesnoth.sln -p:PlatformToolset=v141 -p:Configuration=$OPT"
+    BUILD_RET=$?
+
+    if [ "$BUILD_RET" != "0" ]; then
+        sqlite3 "projectfiles/VC14/$OPT/filehashes.sqlite" "update FILES set MD5 = OLD_MD5, OLD_MD5 = '-' where OLD_MD5 != '-'"
+    else
+        sqlite3 "projectfiles/VC14/$OPT/filehashes.sqlite" "update FILES set OLD_MD5 = '-' where OLD_MD5 != '-'"
+    fi
+
+    if [ "$OPT" == "Release" ] && [ "$BUILD_RET" == "0" ]; then
+        ./run_wml_tests -g -v -c -t "$WML_TEST_TIME"
+        BUILD_RET=$?
+    fi
+
+    exit $BUILD_RET
 else
-    docker run --cap-add=SYS_PTRACE \
-    					 --volume "$HOME"/build-cache:/home/wesnoth-travis/build \
+# additional permissions required due to flatpak's use of bubblewrap
+    docker run --cap-add=ALL --privileged \
+               --volume "$HOME"/build-cache:/home/wesnoth-travis/build \
+               --volume "$HOME"/flatpak-cache:/home/wesnoth-travis/flatpak-cache \
                --volume "$HOME"/.ccache:/root/.ccache \
                --tty wesnoth-repo:"$LTS"-"$BRANCH" \
                unbuffer ./utils/travis/docker_run.sh "$NLS" "$TOOL" "$CC" "$CXX" "$CXXSTD" "$OPT" "$WML_TESTS" "$WML_TEST_TIME" "$PLAY_TEST" "$MP_TEST" "$BOOST_TEST" "$LTO" "$SAN" "$VALIDATE" "$LTS"

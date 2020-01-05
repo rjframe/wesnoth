@@ -14,11 +14,17 @@
      * Many improvement were made to the new default CAs, to make them work correctly and consistently
        in general settings, such a taken AI aspects (aggression, attacks, [avoid], caution, ...) and unit guardian
        status into account, improved attack ratings and multi-leader functionality, and bug fixes
+   * Bottleneck Defense Micro AI:
+     * New optional parameter [filter]
+     * Fix bug of units not participating if too far in front of the bottleneck
    * Healer Support Micro AI: take unit guardian status and passive_leader aspect into account
    * New ai_helper functionality: path finding, next_hop and get_attackable_enemies taking avoid into
      account; next_hop with pre-calculated path and fanning out; new options to get_cheapest_recruit_cost
    * Add [filter_own] optional tag to all default and Experimental AI candidate actions
+   * Allow comma-separated list of ids in addition to 'yes/no' for AI aspects leader_ignores_keep,
+     passive_leader and passive_leader_shares_keep
    * Fix [leader_goal] for sides with multiple leaders
+   * Change E_NOT_REACHED_DESTINATION from error to warning
  ### Campaigns
    * An Orcish Incursion:
      * Moved to addons server
@@ -32,6 +38,11 @@
      * S5: adjust enemy recruits and gold
    * Legend of Wesmere:
      * S3: fix scenario-breaking bug introduced in 1.15.2
+   * Sceptre of Fire:
+     * General prose/dialogue revision
+     * New scenario (now the third)
+     * Various map and scenario updates
+     * Make use of rails terrain
    * Secrets of the Ancients:
      * Prevent hero death from triggering new corpse recruitable dialog (issue #4503)
      * Fix last breath dialog for bats firing multiple times in the campaign
@@ -46,6 +57,8 @@
    * Fix Rename Unit dialog having untranslated text (issue #4569).
  ### Terrains
    * Add Stone Walls variation Catacombs (Xot) including some overlays
+   * New dwarf castle variations: Non-cave (Cf), ruined (Cfr) and snow (Cfa)
+   * New elf castle variation: snow (Cva)
    * Fixes and touchups to mushroom terrains Tb and Tf
  ### User interface
    * Moved tutorial to campaigns menu
@@ -106,6 +119,8 @@
    * [effect]apply_to=variation now supports heal_full
    * Support [set/clear_variable] inside [modify_unit/side]
    * Support [variables] in [modify_side], as in [modify_unit]
+   * [filter_weapon] implemented in abilities used as weapons specials to be the same as true weapons specials (implement filter_weapon in [filter_student] instead of [filter_self])
+   * All special weapons can be used in [abilities] now (this was not the case yet for [heal_on_hit], [plague] and [swarm])
  ### Packaging
    * The Wesnoth client now looks for the data/dist file when logging into the multiplayer server.
      This file should contain one of the following values based on where the package is for:

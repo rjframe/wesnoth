@@ -1062,6 +1062,18 @@ end
 
 --------- Unit related helper functions ----------
 
+function ai_helper.is_passive_leader(aspect_value, id)
+    if (type(aspect_value) == 'boolean') then return aspect_value end
+
+    for _,aspect_id in ipairs(aspect_value) do
+        if (aspect_id == id) then
+            return true
+        end
+    end
+
+    return false
+end
+
 function ai_helper.get_live_units(filter)
     -- Note: the order of the filters and the [and] tags are important for speed reasons
     return wesnoth.units.find_on_map { { "not", { status = "petrified" } }, { "and", filter } }
@@ -1261,27 +1273,11 @@ function ai_helper.get_closest_enemy(loc, side, cfg)
 end
 
 function ai_helper.has_ability(unit, ability, exact_match)
-    -- Returns true/false depending on whether unit has the given ability
-    -- OPTIONAL INPUT:
-    --   - exact_match=true: (boolean) If set to true (the default), the ability id
-    --     has to match @ability exactly, otherwise it is sufficient if @ability appears
-    --     in the id. This is done so that, for example, regeneration abilities with
-    --     ids 'regenerates' and 'regenerates_4' can be matched simultaneously.
+    -- Returns true/false depending on whether unit has the given ability type (tag name)
 
-    if (exact_match == nil) then exact_match = true end
+    wesnoth.deprecated_message('ai_helper.has_ability', 3, '1.17.0', "Use unit:matches { ability_type = ability } instead.")
 
-    for _,ability_id in ipairs(unit.abilities) do
-        if exact_match then
-            if (ability == ability_id) then
-                return true
-            end
-        else
-            if string.find(ability_id, ability) then
-                return true
-            end
-        end
-    end
-    return false
+    return unit:matches { ability_type = ability }
 end
 
 function ai_helper.has_weapon_special(unit, special)
