@@ -43,18 +43,23 @@
      * New scenario (now the third)
      * Various map and scenario updates
      * Make use of rails terrain
+     * Dwarves can purchase runes (temporary status boosts)
    * Secrets of the Ancients:
      * Prevent hero death from triggering new corpse recruitable dialog (issue #4503)
      * Fix last breath dialog for bats firing multiple times in the campaign
      * Fix bug of regular WC appearing in recruit list in S05 Blackwater
      * Fix special plague attack making rats when spiders are called for
+     * Fix missing portraits for Shynal
    * Tutorial:
      * Redraw S2 and reduce difficulty
  ### Editor
  ### Language and i18n
-   * Updated translations: Ancient Greek, Chinese (Traditional), Dutch, French,
-     Italian, Korean, Portuguese (Brazil), Russian
+   * Updated translations: Ancient Greek, Chinese (Traditional), Czech, Dutch,
+     Esperanto, French, Italian, Korean, Portuguese (Brazil), Russian, Spanish,
+     Turkish
    * Fix Rename Unit dialog having untranslated text (issue #4569).
+   * Use <game dir>/translations instead of <process working dir>/translations to find core
+     translation catalogues on Windows.
  ### Terrains
    * Add Stone Walls variation Catacombs (Xot) including some overlays
    * New dwarf castle variations: Non-cave (Cf), ruined (Cfr) and snow (Cfa)
@@ -71,6 +76,10 @@
    * Reworked styling of progress bars and the network transfer progress dialog.
    * Moved the MP server list from a separate dialog to the Connect to Server dialog proper
      and added functionality for managing player-defined servers (issue #4564).
+   * The load-game dialog can now see the directories used by Wesnoth 1.14, 1.12, etc.
+   * The search box in the Campaigns menu now takes campaign abbreviations and descriptions
+     into account.
+   * The recruit and recall dialogs have a tooltip over the level number to show what the unit can advance to (issue #4135)
  ### Units
    * Add mushroom defense cap to mounted and some flying units
    * Decreased hitpoints of Dwarvish Lord from 79 to 74
@@ -81,10 +90,6 @@
    * Increased melee damage of Dwarvish Sentinel from 9-3 to 10-3
    * Dunefolk: rebalancing and renaming of various units
    * Orcs: revise some unit descriptions
- ### User interface
-   * The load-game dialog can now see the directories used by Wesnoth 1.14, 1.12, etc.
-   * The search box in the Campaigns menu now takes campaign abbreviations and descriptions
-     into account.
  ### Lua API
    * unit:transform() now takes an optional variation parameter
    * Support side.variables for access to side variables, similar to unit.variables
@@ -140,6 +145,7 @@
    * Removed the python2 trackplacer tool (issue #4365)
    * Made wmlscope recognize and analyze optional macro arguments
    * Made `map_file=Example.map` support looking in the `[binary_path]`'s "maps/" directory (issue #4633)
+   * Make wesnoth_addon_manager not generate packet.dump files any more (issue #4651)
 
 ## Version 1.15.2
  ### AI:
